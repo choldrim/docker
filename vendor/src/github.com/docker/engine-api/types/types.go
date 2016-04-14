@@ -465,3 +465,12 @@ type NetworkDisconnect struct {
 	Container string
 	Force     bool
 }
+
+// Checkpoint represents the details of a checkpoint
+type Checkpoint struct {
+	Name string // Name is the name of the checkpoint
+}
+// CheckpointListResponse contains the response for the remote API:
+type CheckpointListResponse struct {
+	Checkpoints []*Checkpoint // Checkpoints is the list of checkpoints being returned
+}
