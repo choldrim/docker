@@ -466,3 +466,15 @@ func (clnt *client) UpdateResources(containerID string, resources Resources) err
 	// but we should return nil for enabling updating container
 	return nil
 }
+
+func (clnt *client) CreateCheckpoint(containerID string, checkpointID string, exit bool) error {
+	return errors.New("Windows: Containers do not support checkpoints")
+}
+
+func (clnt *client) DeleteCheckpoint(containerID string, checkpointID string) error {
+	return errors.New("Windows: Containers do not support checkpoints")
+}
+
+func (clnt *client) ListCheckpoints(containerID string) (*Checkpoints, error) {
+	return errors.New("Windows: Containers do not support checkpoints")
+}

@@ -400,3 +400,50 @@ func (en *exitNotifier) close() {
 func (en *exitNotifier) wait() <-chan struct{} {
 	return en.c
 }
+
+func (clnt *client) CreateCheckpoint(containerID string, checkpointID string, exit bool) error {
+	clnt.lock(containerID)
+	defer clnt.unlock(containerID)
+	if _, err := clnt.getContainer(containerID); err != nil {
+		return err
+	}
+	_, err := clnt.remote.apiClient.CreateCheckpoint(context.Background(), &containerd.CreateCheckpointRequest{
+		Id: containerID,
+		Checkpoint: &containerd.Checkpoint{
+			Name:        checkpointID,
+			Exit:        exit,
+			Tcp:         true,
+			UnixSockets: true,
+			Shell:       true,
+		},
+	})
+	return err
+}
+
+func (clnt *client) DeleteCheckpoint(containerID string, checkpointID string) error {
+	clnt.lock(containerID)
+	defer clnt.unlock(containerID)
+	if _, err := clnt.getContainer(containerID); err != nil {
+		return err
+	}
+	_, err := clnt.remote.apiClient.DeleteCheckpoint(context.Background(), &containerd.DeleteCheckpointRequest{
+		Id:   containerID,
+		Name: checkpointID,
+	})
+	return err
+}
+
+func (clnt *client) ListCheckpoints(containerID string) (*Checkpoints, error) {
+	clnt.lock(containerID)
+	defer clnt.unlock(containerID)
+	if _, err := clnt.getContainer(containerID); err != nil {
+		return nil, err
+	}
+	resp, err := clnt.remote.apiClient.ListCheckpoint(context.Background(), &containerd.ListCheckpointRequest{
+		Id: containerID,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return (*Checkpoints)(resp), nil
+}

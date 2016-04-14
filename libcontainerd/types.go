@@ -43,6 +43,9 @@ type Client interface {
 	GetPidsForContainer(containerID string) ([]int, error)
 	Summary(containerID string) ([]Summary, error)
 	UpdateResources(containerID string, resources Resources) error
+	CreateCheckpoint(containerID string, checkpointID string, exit bool) error
+	DeleteCheckpoint(containerID string, checkpointID string) error
+	ListCheckpoints(containerID string) (*Checkpoints, error)
 }
 
 // CreateOption allows to configure parameters of container creation.

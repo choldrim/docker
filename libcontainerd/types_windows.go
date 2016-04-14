@@ -30,3 +30,5 @@ type Stats struct{}
 
 // Resources defines updatable container resource values.
 type Resources struct{}
+
+type Checkpoints struct{}

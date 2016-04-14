@@ -63,6 +63,12 @@ type attachBackend interface {
 	ContainerAttach(name string, c *backend.ContainerAttachConfig) error
 }
 
+type checkpointBackend interface {
+	CheckpointCreate(container string, config types.CheckpointCreateOptions) error
+	CheckpointDelete(container string, checkpointID string) error
+	CheckpointList(container string) (types.CheckpointListResponse, error)
+}
+
 // Backend is all the methods that need to be implemented to provide container specific functionality.
 type Backend interface {
 	execBackend
@@ -70,4 +76,5 @@ type Backend interface {
 	stateBackend
 	monitorBackend
 	attachBackend
+	checkpointBackend
 }

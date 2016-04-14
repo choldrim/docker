@@ -513,3 +513,50 @@ func (s *containerRouter) wsContainersAttach(ctx context.Context, w http.Respons
 	}
 	return err
 }
+
+
+func (s *containerRouter) postContainerCheckpoint(ctx context.Context, w http.ResponseWriter, r *http.Request, vars map[string]string) error {
+	if err := httputils.ParseForm(r); err != nil {
+		return err
+	}
+
+	config := types.CheckpointCreateOptions{
+		CheckpointID:   r.Form.Get("checkpoint"),
+		Exit:			httputils.BoolValue(r, "exit"),
+	}
+
+	err := s.backend.CheckpointCreate(vars["name"], config)
+	if err != nil {
+		return err
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+	return nil
+}
+
+func (s *containerRouter) getContainerCheckpoints(ctx context.Context, w http.ResponseWriter, r *http.Request, vars map[string]string) error {
+	if err := httputils.ParseForm(r); err != nil {
+		return err
+	}
+
+	checkpoints, err := s.backend.CheckpointList(vars["name"])
+	if err != nil {
+		return err
+	}
+
+	return httputils.WriteJSON(w, http.StatusOK, checkpoints)
+}
+
+func (s *containerRouter) deleteContainerCheckpoint(ctx context.Context, w http.ResponseWriter, r *http.Request, vars map[string]string) error {
+	if err := httputils.ParseForm(r); err != nil {
+		return err
+	}
+
+	err := s.backend.CheckpointDelete(vars["name"], r.Form.Get("checkpoint"))
+	if err != nil {
+		return err
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+	return nil
+}

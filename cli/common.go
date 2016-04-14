@@ -28,6 +28,7 @@ type Command struct {
 var dockerCommands = []Command{
 	{"attach", "Attach to a running container"},
 	{"build", "Build an image from a Dockerfile"},
+	{"checkpoint", "Manage a container's checkpoints"},
 	{"commit", "Create a new image from a container's changes"},
 	{"cp", "Copy files/folders between a container and the local filesystem"},
 	{"create", "Create a new container"},

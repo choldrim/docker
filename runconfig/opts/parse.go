@@ -97,6 +97,7 @@ func Parse(cmd *flag.FlagSet, args []string) (*container.Config, *container.Host
 		flStopSignal        = cmd.String([]string{"-stop-signal"}, signal.DefaultStopSignal, fmt.Sprintf("Signal to stop a container, %v by default", signal.DefaultStopSignal))
 		flIsolation         = cmd.String([]string{"-isolation"}, "", "Container isolation technology")
 		flShmSize           = cmd.String([]string{"-shm-size"}, "", "Size of /dev/shm, default value is 64MB")
+		flCheckpoint        = cmd.String([]string{"-checkpoint"}, "", "Start container from this checkpoint")
 	)
 
 	cmd.Var(&flAttach, []string{"a", "-attach"}, "Attach to STDIN, STDOUT or STDERR")
@@ -389,6 +390,7 @@ func Parse(cmd *flag.FlagSet, args []string) (*container.Config, *container.Host
 		Entrypoint:      entrypoint,
 		WorkingDir:      *flWorkingDir,
 		Labels:          ConvertKVStringsToMap(labels),
+		CheckpointID:    *flCheckpoint,
 	}
 	if cmd.IsSet("-stop-signal") {
 		config.StopSignal = *flStopSignal
