@@ -25,7 +25,7 @@ func (pm *Manager) enable(p *plugin) error {
 	}
 
 	p.restartManager = restartmanager.New(container.RestartPolicy{Name: "always"}, 0)
-	if err := pm.containerdClient.Create(p.P.ID, libcontainerd.Spec(*spec), libcontainerd.WithRestartManager(p.restartManager)); err != nil { // POC-only
+	if err := pm.containerdClient.Create(p.P.ID, "", "", libcontainerd.Spec(*spec), libcontainerd.WithRestartManager(p.restartManager)); err != nil { // POC-only
 		return err
 	}
 

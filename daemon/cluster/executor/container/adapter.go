@@ -146,7 +146,7 @@ func (c *containerAdapter) create(ctx context.Context, backend executorpkg.Backe
 }
 
 func (c *containerAdapter) start(ctx context.Context) error {
-	return c.backend.ContainerStart(c.container.name(), nil)
+	return c.backend.ContainerStart(c.container.name(), nil, "")
 }
 
 func (c *containerAdapter) inspect(ctx context.Context) (types.ContainerJSON, error) {

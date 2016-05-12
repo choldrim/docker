@@ -9,6 +9,7 @@ import (
 
 	"github.com/docker/docker/pkg/homedir"
 	"github.com/docker/docker/pkg/integration/checker"
+	"github.com/docker/docker/utils"
 	"github.com/go-check/check"
 )
 
@@ -125,6 +126,12 @@ func (s *DockerSuite) TestHelpTextVerify(c *check.C) {
 		cmdsToTest = append(cmdsToTest, "network inspect")
 		cmdsToTest = append(cmdsToTest, "network ls")
 		cmdsToTest = append(cmdsToTest, "network rm")
+
+		if utils.ExperimentalBuild() {
+			cmdsToTest = append(cmdsToTest, "checkpoint create")
+			cmdsToTest = append(cmdsToTest, "checkpoint ls")
+			cmdsToTest = append(cmdsToTest, "checkpoint rm")
+		}
 
 		// Divide the list of commands into go routines and  run the func testcommand on the commands in parallel
 		// to save runtime of test

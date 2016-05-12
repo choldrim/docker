@@ -19,7 +19,7 @@ type Backend interface {
 	SetupIngress(req clustertypes.NetworkCreateRequest, nodeIP string) error
 	PullImage(ctx context.Context, image, tag string, metaHeaders map[string][]string, authConfig *types.AuthConfig, outStream io.Writer) error
 	CreateManagedContainer(types.ContainerCreateConfig) (types.ContainerCreateResponse, error)
-	ContainerStart(name string, hostConfig *container.HostConfig) error
+	ContainerStart(name string, hostConfig *container.HostConfig, checkpoint string) error
 	ContainerStop(name string, seconds int) error
 	ConnectContainerToNetwork(containerName, networkName string, endpointConfig *network.EndpointSettings) error
 	UpdateContainerServiceConfig(containerName string, serviceConfig *clustertypes.ServiceConfig) error

@@ -151,7 +151,12 @@ func (s *containerRouter) postContainersStart(ctx context.Context, w http.Respon
 		hostConfig = c
 	}
 
-	if err := s.backend.ContainerStart(vars["name"], hostConfig); err != nil {
+	if err := httputils.ParseForm(r); err != nil {
+		return err
+	}
+	checkpoint := r.Form.Get("checkpoint")
+
+	if err := s.backend.ContainerStart(vars["name"], hostConfig, checkpoint); err != nil {
 		return err
 	}
 	w.WriteHeader(http.StatusNoContent)

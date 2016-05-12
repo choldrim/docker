@@ -2,6 +2,7 @@ package cobraadaptor
 
 import (
 	"github.com/docker/docker/api/client"
+	"github.com/docker/docker/api/client/checkpoint"
 	"github.com/docker/docker/api/client/container"
 	"github.com/docker/docker/api/client/image"
 	"github.com/docker/docker/api/client/network"
@@ -87,6 +88,7 @@ func NewCobraAdaptor(clientFlags *cliflags.ClientFlags) CobraAdaptor {
 		system.NewInfoCommand(dockerCli),
 	)
 	plugin.NewPluginCommand(rootCmd, dockerCli)
+	checkpoint.NewCheckpointCommand(rootCmd, dockerCli)
 
 	rootCmd.PersistentFlags().BoolP("help", "h", false, "Print usage")
 	rootCmd.PersistentFlags().MarkShorthandDeprecated("help", "please use --help")
